@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "bakedbliss",
+	"version": "${version}",
+	"name": "Baked Bliss",
+	"description": "Eat up!",
+	"authors": [
+		"heartsfromollie"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "ARR",
+	"icon": "assets/bakedbliss/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"heartsfromollie.bakedbliss.BakedBliss"
+		],
+		"client": [
+			"heartsfromollie.bakedbliss.BakedBlissClient"
+		],
+		"fabric-datagen": [
+			"heartsfromollie.bakedbliss.BakedBlissDataGenerator"
+		]
+	},
+	"mixins": [
+		"bakedbliss.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

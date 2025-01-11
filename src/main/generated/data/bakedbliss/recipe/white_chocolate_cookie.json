@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "H": {
+      "item": "minecraft:wheat"
+    },
+    "W": {
+      "item": "bakedbliss:white_cocoa_powder"
+    }
+  },
+  "pattern": [
+    "HWH"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bakedbliss:white_chocolate_cookie"
+  }
+}
