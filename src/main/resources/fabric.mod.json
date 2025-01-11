@@ -8,8 +8,7 @@
 		"heartsfromollie"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/heartsfromollie/Baked-Bliss"
 	},
 	"license": "ARR",
 	"icon": "assets/bakedbliss/icon.png",
