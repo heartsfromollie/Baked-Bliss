@@ -2,7 +2,6 @@ package heartsfromollie.bakedbliss.block.custom;
 
 import heartsfromollie.bakedbliss.sound.ModSounds;
 import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,8 +9,6 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.ActionResult;
@@ -27,7 +24,7 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 
-public class PlushieBlock extends Block implements Waterloggable {
+public class PlushieBlock extends Block{
     public static final EnumProperty<Direction> FACING = HorizontalFacingBlock.FACING;
     protected static final VoxelShape SHAPE = Block.createCuboidShape(4.0, 0.0, 4.0, 12.0, 16.0, 12.0);
 
@@ -100,10 +97,6 @@ public class PlushieBlock extends Block implements Waterloggable {
                     1f
             );
         }
-    }
-    @Override
-    public boolean shouldDropItemsOnExplosion(Explosion explosion) {
-        return true;
     }
 
 
