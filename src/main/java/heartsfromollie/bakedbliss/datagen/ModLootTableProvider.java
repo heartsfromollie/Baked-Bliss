@@ -1,9 +1,8 @@
 package heartsfromollie.bakedbliss.datagen;
 
+import heartsfromollie.bakedbliss.block.ModBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
 
 import java.util.concurrent.CompletableFuture;
@@ -16,8 +15,6 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
 
     @Override
     public void generate() {
-
-
-
+            addDrop(ModBlocks.HEARTSFROMOLLIE_PLUSHIE);
     }
 }

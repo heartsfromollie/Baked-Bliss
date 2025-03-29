@@ -1,13 +1,17 @@
 package heartsfromollie.bakedbliss.items;
 
 import heartsfromollie.bakedbliss.BakedBliss;
+import heartsfromollie.bakedbliss.block.ModBlocks;
 import heartsfromollie.bakedbliss.food.ModFoodComponents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 
 public class ModItems {
     public static final Item COCOA_POWDER = registerItem("cocoa_powder", new Item(new Item.Settings()));
@@ -16,12 +20,17 @@ public class ModItems {
     public static final Item WHITE_CHOCOLATE_COOKIE = registerItem("white_chocolate_cookie", new Item(new Item.Settings()
             .food(ModFoodComponents.WHITE_CHOCOLATE_COOKIE)));
     public static final Item BERRY_JAM = registerItem("berry_jam", new Item(new Item.Settings()));
+    public static final Item SMOKED_BERRY_JAM = registerItem("smoked_berry_jam", new Item(new Item.Settings()));
     public static final Item BERRY_JAM_COOKIE = registerItem("berry_jam_cookie", new Item(new Item.Settings()
             .food(ModFoodComponents.BERRY_JAM_COOKIE)));
+    public static final Item SMOKED_BERRY_JAM_COOKIE = registerItem("smoked_berry_jam_cookie", new Item(new Item.Settings()
+            .food(ModFoodComponents.SMOKED_BERRY_JAM_COOKIE)));
     public static final Item PUMPKIN_BREAD = registerItem("pumpkin_bread", new Item(new Item.Settings()
             .food(ModFoodComponents.PUMPKIN_BREAD)));
     public static final Item PUMPKIN_SLICE = registerItem("pumpkin_slice", new Item(new Item.Settings()
             .food(ModFoodComponents.PUMPKIN_SLICE)));
+    public static final Item HEARTSFROMOLLIE_PLUSHIE = Items.register(new BlockItem(ModBlocks.HEARTSFROMOLLIE_PLUSHIE, new Item.Settings().rarity(Rarity.RARE)));
+
 
 
 
@@ -39,6 +48,7 @@ public class ModItems {
             fabricItemGroupEntries.add(WHITE_COCOA_POWDER);
             fabricItemGroupEntries.add(WHITE_COCOA_BEANS);
             fabricItemGroupEntries.add(BERRY_JAM);
+            fabricItemGroupEntries.add(SMOKED_BERRY_JAM);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(fabricItemGroupEntries -> {;
@@ -48,8 +58,12 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(fabricItemGroupEntries -> {
             fabricItemGroupEntries.add(WHITE_CHOCOLATE_COOKIE);
             fabricItemGroupEntries.add(BERRY_JAM_COOKIE);
+            fabricItemGroupEntries.add(SMOKED_BERRY_JAM_COOKIE);
             fabricItemGroupEntries.add(PUMPKIN_BREAD);
             fabricItemGroupEntries.add(PUMPKIN_SLICE);
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COLORED_BLOCKS).register(fabricItemGroupEntries -> {
+            fabricItemGroupEntries.add(HEARTSFROMOLLIE_PLUSHIE);
         });
     }
 }

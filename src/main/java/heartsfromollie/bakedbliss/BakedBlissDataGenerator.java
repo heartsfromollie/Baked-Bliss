@@ -3,6 +3,7 @@ package heartsfromollie.bakedbliss;
 import heartsfromollie.bakedbliss.datagen.*;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
 import net.minecraft.registry.RegistryBuilder;
 
 public class BakedBlissDataGenerator implements DataGeneratorEntrypoint {

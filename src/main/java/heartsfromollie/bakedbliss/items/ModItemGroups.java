@@ -1,6 +1,7 @@
 package heartsfromollie.bakedbliss.items;
 
 import heartsfromollie.bakedbliss.BakedBliss;
+import heartsfromollie.bakedbliss.block.ModBlocks;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -27,11 +28,12 @@ public class ModItemGroups {
                         entries.add(ModItems.WHITE_CHOCOLATE_COOKIE);
                         entries.add(Items.SWEET_BERRIES);
                         entries.add(ModItems.BERRY_JAM);
+                        entries.add(ModItems.SMOKED_BERRY_JAM);
                         entries.add(ModItems.BERRY_JAM_COOKIE);
+                        entries.add(ModItems.SMOKED_BERRY_JAM_COOKIE);
                         entries.add(ModItems.PUMPKIN_BREAD);
                         entries.add(ModItems.PUMPKIN_SLICE);
-
-
+                        entries.add(ModBlocks.HEARTSFROMOLLIE_PLUSHIE);
                     }).build());
 
 

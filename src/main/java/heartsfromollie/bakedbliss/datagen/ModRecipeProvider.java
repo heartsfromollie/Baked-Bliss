@@ -1,16 +1,21 @@
 package heartsfromollie.bakedbliss.datagen;
 
+import heartsfromollie.bakedbliss.block.ModBlocks;
 import heartsfromollie.bakedbliss.items.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Blocks;
+import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
+import net.minecraft.recipe.AbstractCookingRecipe;
+import net.minecraft.recipe.CampfireCookingRecipe;
 import net.minecraft.recipe.CraftingRecipe;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
 
@@ -32,9 +37,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 150, "berry_smeltables");
 
 
-
-
-
         ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.WHITE_CHOCOLATE_COOKIE)
                 .pattern("HWH")
                 .input('H', Items.WHEAT)
@@ -49,6 +51,14 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .input('W', Items.WHEAT)
                 .input('J', ModItems.BERRY_JAM)
                 .criterion(hasItem(ModItems.BERRY_JAM), conditionsFromItem(ModItems.BERRY_JAM))
+                .criterion(hasItem(Items.WHEAT), conditionsFromItem(Items.WHEAT))
+                .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.SMOKED_BERRY_JAM_COOKIE)
+                .pattern("WSW")
+                .input('W', Items.WHEAT)
+                .input('S', ModItems.SMOKED_BERRY_JAM)
+                .criterion(hasItem(ModItems.SMOKED_BERRY_JAM), conditionsFromItem(ModItems.SMOKED_BERRY_JAM))
                 .criterion(hasItem(Items.WHEAT), conditionsFromItem(Items.WHEAT))
                 .offerTo(recipeExporter);
 
@@ -75,6 +85,20 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.PUMPKIN_SLICE, 4)
                 .input(Blocks.PUMPKIN)
                 .criterion(hasItem(Blocks.PUMPKIN), conditionsFromItem(Blocks.PUMPKIN))
+                .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, ModBlocks.HEARTSFROMOLLIE_PLUSHIE, 1)
+                .pattern("YBY")
+                .pattern("BWP")
+                .pattern("WWW")
+                .input('Y', Items.YELLOW_WOOL)
+                .input('B', Items.BROWN_WOOL)
+                .input('W', Items.WHITE_WOOL)
+                .input('P', Items.PINK_WOOL)
+                .criterion(hasItem(Items.YELLOW_WOOL), conditionsFromItem(Items.YELLOW_WOOL))
+                .criterion(hasItem(Items.BROWN_WOOL), conditionsFromItem(Items.BROWN_WOOL))
+                .criterion(hasItem(Items.WHITE_WOOL), conditionsFromItem(Items.WHITE_WOOL))
+                .criterion(hasItem(Items.PINK_WOOL), conditionsFromItem(Items.PINK_WOOL))
                 .offerTo(recipeExporter);
 
     }
