@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "minecraft:glass_bottle"
+    },
+    "I": {
+      "item": "minecraft:ice"
+    },
+    "S": {
+      "item": "bakedbliss:strawberry"
+    }
+  },
+  "pattern": [
+    "SIS",
+    " G "
+  ],
+  "result": {
+    "count": 1,
+    "id": "bakedbliss:strawberry_sundae"
+  }
+}

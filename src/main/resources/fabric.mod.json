@@ -1,0 +1,36 @@
+{
+	"schemaVersion": 1,
+	"id": "bakedbliss",
+	"version": "${version}",
+	"name": "Baked Bliss",
+	"description": "Crunch and munch! Woo!",
+	"authors": [
+		"olliemarkII",
+		"reindeerantler"
+	],
+	"contact": {
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/bakedbliss/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"olliemarkii.bakedbliss.BakedBliss"
+		],
+		"fabric-datagen": [
+			"olliemarkii.bakedbliss.BakedBlissDataGenerator"
+		],
+		"client": [
+			"olliemarkii.bakedbliss.BakedBlissClient"
+		]
+	},
+	"mixins": [
+		"bakedbliss.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "bakedbliss:block/nyxberry_bush_stage3"
+  }
+}
