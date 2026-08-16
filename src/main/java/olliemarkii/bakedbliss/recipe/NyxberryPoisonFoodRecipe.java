@@ -1,45 +1,45 @@
 package olliemarkii.bakedbliss.recipe;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.recipe.input.CraftingRecipeInput;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.world.World;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 import olliemarkii.bakedbliss.component.NyxberryPoisonComponent;
 import olliemarkii.bakedbliss.registry.BakedBlissComponents;
 import olliemarkii.bakedbliss.registry.BakedBlissItems;
 import olliemarkii.bakedbliss.registry.BakedBlissRecipes;
 
-public class NyxberryPoisonFoodRecipe extends SpecialCraftingRecipe {
+public class NyxberryPoisonFoodRecipe extends CustomRecipe {
 
-    public NyxberryPoisonFoodRecipe(CraftingRecipeCategory category) {
+    public NyxberryPoisonFoodRecipe(CraftingBookCategory category) {
         super(category);
     }
 
     @Override
-    public boolean matches(CraftingRecipeInput input, World world) {
+    public boolean matches(CraftingInput input, Level world) {
 
         ItemStack food = ItemStack.EMPTY;
         ItemStack poison = ItemStack.EMPTY;
 
-        for (int i = 0; i < input.getSize(); i++) {
+        for (int i = 0; i < input.size(); i++) {
 
-            ItemStack stack = input.getStackInSlot(i);
+            ItemStack stack = input.getItem(i);
 
             if (stack.isEmpty())
                 continue;
 
-            if (stack.isOf(BakedBlissItems.NYXBERRIES)) {
+            if (stack.is(BakedBlissItems.NYXBERRIES)) {
 
                 if (!poison.isEmpty())
                     return false;
 
                 poison = stack;
             }
-            else if (stack.contains(DataComponentTypes.FOOD)) {
+            else if (stack.has(DataComponents.FOOD)) {
 
                 if (!food.isEmpty())
                     return false;
@@ -55,13 +55,13 @@ public class NyxberryPoisonFoodRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
+    public ItemStack craft(CraftingInput input, HolderLookup.Provider lookup) {
 
-        for (int i = 0; i < input.getSize(); i++) {
+        for (int i = 0; i < input.size(); i++) {
 
-            ItemStack stack = input.getStackInSlot(i);
+            ItemStack stack = input.getItem(i);
 
-            if (stack.contains(DataComponentTypes.FOOD)) {
+            if (stack.has(DataComponents.FOOD)) {
 
                 ItemStack result = stack.copyWithCount(1);
 
@@ -83,7 +83,7 @@ public class NyxberryPoisonFoodRecipe extends SpecialCraftingRecipe {
 
 
     @Override
-    public boolean fits(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
 

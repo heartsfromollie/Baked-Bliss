@@ -2,9 +2,9 @@ package olliemarkii.bakedbliss.component;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 
 public record NyxberryPoisonComponent(int duration, int amplifier) {
 
@@ -16,12 +16,12 @@ public record NyxberryPoisonComponent(int duration, int amplifier) {
                     ).apply(instance, NyxberryPoisonComponent::new)
             );
 
-    public static final PacketCodec<RegistryByteBuf, NyxberryPoisonComponent> PACKET_CODEC =
-            PacketCodec.tuple(
-                    PacketCodecs.INTEGER,
+    public static final StreamCodec<RegistryFriendlyByteBuf, NyxberryPoisonComponent> PACKET_CODEC =
+            StreamCodec.composite(
+                    ByteBufCodecs.INT,
                     NyxberryPoisonComponent::duration,
 
-                    PacketCodecs.INTEGER,
+                    ByteBufCodecs.INT,
                     NyxberryPoisonComponent::amplifier,
 
                     NyxberryPoisonComponent::new

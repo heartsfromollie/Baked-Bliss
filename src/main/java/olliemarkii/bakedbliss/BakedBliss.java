@@ -5,8 +5,6 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
-import net.minecraft.item.Item;
-import net.minecraft.potion.Potions;
 import olliemarkii.bakedbliss.registry.*;
 import olliemarkii.bakedbliss.item.BakedBlissItemGroups;
 import olliemarkii.bakedbliss.world.gen.BakedBlissWorldGeneration;

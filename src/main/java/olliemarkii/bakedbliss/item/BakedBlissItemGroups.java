@@ -1,35 +1,35 @@
 package olliemarkii.bakedbliss.item;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import olliemarkii.bakedbliss.BakedBliss;
 import olliemarkii.bakedbliss.registry.BakedBlissItems;
 
 public class BakedBlissItemGroups {
-    public static final ItemGroup BAKED_BLISS_ITEM_GROUP = Registry.register(Registries.ITEM_GROUP,
-            Identifier.of(BakedBliss.MOD_ID, "bb_items"),
+    public static final CreativeModeTab BAKED_BLISS_ITEM_GROUP = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
+            ResourceLocation.fromNamespaceAndPath(BakedBliss.MOD_ID, "bb_items"),
             FabricItemGroup.builder().icon(()-> new ItemStack(BakedBlissItems.STRAWBERRY))
-                    .displayName(Text.translatable("itemgroup.bakedbliss.bb_items"))
-                    .entries((displayContext, entries) -> {
-                        entries.add(BakedBlissItems.STRAWBERRY);
-                        entries.add(Items.SWEET_BERRIES);
-                        entries.add(BakedBlissItems.NYXBERRIES);
-                        entries.add(BakedBlissItems.BERRY_JAM);
-                        entries.add(BakedBlissItems.SMOKED_BERRY_JAM);
-                        entries.add(BakedBlissItems.BERRY_JAM_COOKIE);
-                        entries.add(BakedBlissItems.SMOKED_BERRY_JAM_COOKIE);
-                        entries.add(BakedBlissItems.STRAWBERRY_PIE);
-                        entries.add(BakedBlissItems.STRAWBERRY_SUNDAE);
-                        entries.add(BakedBlissItems.DRIED_NYXBERRIES);
-                        entries.add(BakedBlissItems.CANDIED_DRIED_NYXBERRIES);
-                        entries.add(BakedBlissItems.NYXBERRY_JAM);
-                        entries.add(BakedBlissItems.NYXBERRY_SWIRL_CHEESECAKE);
+                    .title(Component.translatable("itemgroup.bakedbliss.bb_items"))
+                    .displayItems((displayContext, entries) -> {
+                        entries.accept(BakedBlissItems.STRAWBERRY);
+                        entries.accept(Items.SWEET_BERRIES);
+                        entries.accept(BakedBlissItems.NYXBERRIES);
+                        entries.accept(BakedBlissItems.BERRY_JAM);
+                        entries.accept(BakedBlissItems.SMOKED_BERRY_JAM);
+                        entries.accept(BakedBlissItems.BERRY_JAM_COOKIE);
+                        entries.accept(BakedBlissItems.SMOKED_BERRY_JAM_COOKIE);
+                        entries.accept(BakedBlissItems.STRAWBERRY_PIE);
+                        entries.accept(BakedBlissItems.STRAWBERRY_SUNDAE);
+                        entries.accept(BakedBlissItems.DRIED_NYXBERRIES);
+                        entries.accept(BakedBlissItems.CANDIED_DRIED_NYXBERRIES);
+                        entries.accept(BakedBlissItems.NYXBERRY_JAM);
+                        entries.accept(BakedBlissItems.NYXBERRY_SWIRL_CHEESECAKE);
 
 
 

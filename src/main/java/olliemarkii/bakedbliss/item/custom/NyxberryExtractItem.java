@@ -1,21 +1,21 @@
 package olliemarkii.bakedbliss.item.custom;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.UseAction;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
 
 public class NyxberryExtractItem extends Item {
-    public NyxberryExtractItem(Settings settings) {
+    public NyxberryExtractItem(Properties settings) {
         super(settings);
     }
         @Override
-        public UseAction getUseAction(ItemStack stack) {
-            return UseAction.DRINK;
+        public UseAnim getUseAnimation(ItemStack stack) {
+            return UseAnim.DRINK;
         }
 
         @Override
-        public int getMaxUseTime(ItemStack stack, LivingEntity user) {
+        public int getUseDuration(ItemStack stack, LivingEntity user) {
             return 25;
         }
     }

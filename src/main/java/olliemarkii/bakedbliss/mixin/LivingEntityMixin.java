@@ -1,12 +1,10 @@
 package olliemarkii.bakedbliss.mixin;
 
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.world.World;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import olliemarkii.bakedbliss.component.NyxberryPoisonComponent;
 import olliemarkii.bakedbliss.registry.BakedBlissComponents;
 import olliemarkii.bakedbliss.registry.BakedBlissEffects;
@@ -19,11 +17,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class LivingEntityMixin {
 
     @Inject(
-            method = "eatFood",
+            method = "eat(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/food/FoodProperties;)Lnet/minecraft/world/item/ItemStack;",
             at = @At("TAIL")
     )
     private void bakedbliss$applyPoison(
-            World world, ItemStack stack, FoodComponent foodComponent, CallbackInfoReturnable<ItemStack> cir
+            Level world, ItemStack stack, FoodProperties foodComponent, CallbackInfoReturnable<ItemStack> cir
     ) {
 
         NyxberryPoisonComponent poison = stack.get(BakedBlissComponents.NYXBERRY_POISON);
@@ -33,8 +31,8 @@ public class LivingEntityMixin {
 
         LivingEntity entity = (LivingEntity)(Object)this;
 
-        entity.addStatusEffect(
-                new StatusEffectInstance(
+        entity.addEffect(
+                new MobEffectInstance(
                         BakedBlissEffects.NYXBERRY_POISONING,
                         poison.duration(),
                         poison.amplifier()

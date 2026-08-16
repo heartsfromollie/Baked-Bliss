@@ -1,46 +1,46 @@
 package olliemarkii.bakedbliss.block.custom;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SweetBerryBushBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SweetBerryBushBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.BlockHitResult;
 import olliemarkii.bakedbliss.registry.BakedBlissItems;
 
 public class NyxberryBushBlock extends SweetBerryBushBlock {
-    public NyxberryBushBlock(Settings settings) {
+    public NyxberryBushBlock(Properties settings) {
         super(settings);
     }
 
 
     @Override
-    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
+    public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state) {
         return new ItemStack(BakedBlissItems.NYXBERRIES);
     }
 
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        int i = state.get(AGE);
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        int i = state.getValue(AGE);
         boolean bl = i == 3;
         if (i > 1) {
             int j = 1 + world.random.nextInt(2);
-            dropStack(world, pos, new ItemStack(BakedBlissItems.NYXBERRIES, j + (bl ? 1 : 0)));
-            world.playSound((PlayerEntity)null, pos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES, SoundCategory.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() * 0.4F);
-            BlockState blockState = state.with(AGE, 1);
-            world.setBlockState(pos, blockState, Block.NOTIFY_LISTENERS);
-            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, blockState));
-            return ActionResult.success(world.isClient);
+            popResource(world, pos, new ItemStack(BakedBlissItems.NYXBERRIES, j + (bl ? 1 : 0)));
+            world.playSound((Player)null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() * 0.4F);
+            BlockState blockState = state.setValue(AGE, 1);
+            world.setBlock(pos, blockState, Block.UPDATE_CLIENTS);
+            world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, blockState));
+            return InteractionResult.sidedSuccess(world.isClientSide);
         } else {
-            return super.onUse(state, world, pos, player, hit);
+            return super.useWithoutItem(state, world, pos, player, hit);
         }
     }
 }

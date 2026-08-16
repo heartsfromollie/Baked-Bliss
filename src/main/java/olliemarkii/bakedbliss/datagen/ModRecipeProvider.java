@@ -2,114 +2,119 @@ package olliemarkii.bakedbliss.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.block.Blocks;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.server.recipe.*;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import olliemarkii.bakedbliss.registry.BakedBlissItems;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends FabricRecipeProvider {
-    public ModRecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public ModRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    public void generate(RecipeExporter exporter) {
-        List<ItemConvertible> SWEET_BERRY_SMELTABLES = List.of(Items.SWEET_BERRIES);
-        List<ItemConvertible> NYXBERRY_SMELTABLES = List.of(BakedBlissItems.NYXBERRIES);
-        offerSmelting(exporter, SWEET_BERRY_SMELTABLES, RecipeCategory.FOOD, BakedBlissItems.BERRY_JAM, 0.15f,
+    public void buildRecipes(RecipeOutput exporter) {
+        List<ItemLike> SWEET_BERRY_SMELTABLES = List.of(Items.SWEET_BERRIES);
+        List<ItemLike> NYXBERRY_SMELTABLES = List.of(BakedBlissItems.NYXBERRIES);
+        oreSmelting(exporter, SWEET_BERRY_SMELTABLES, RecipeCategory.FOOD, BakedBlissItems.BERRY_JAM, 0.15f,
                 150, "sweet_berry_smeltables");
 
-        offerSmelting(exporter, NYXBERRY_SMELTABLES, RecipeCategory.FOOD, BakedBlissItems.NYXBERRY_JAM, 0.15f,
+        oreSmelting(exporter, NYXBERRY_SMELTABLES, RecipeCategory.FOOD, BakedBlissItems.NYXBERRY_JAM, 0.15f,
                 150, "nyxberry_raisin_shit_idfk");
 
 
-        CookingRecipeJsonBuilder.createCampfireCooking(Ingredient.ofItems(Items.SWEET_BERRIES), RecipeCategory.FOOD, BakedBlissItems.SMOKED_BERRY_JAM, 0.15f, 100
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(Items.SWEET_BERRIES), RecipeCategory.FOOD, BakedBlissItems.SMOKED_BERRY_JAM, 0.15f, 100
                 )
-                .criterion(
-                        RecipeProvider.hasItem(Items.SWEET_BERRIES),
-                        RecipeProvider.conditionsFromItem(Items.SWEET_BERRIES)
+                .unlockedBy(
+                        RecipeProvider.getHasName(Items.SWEET_BERRIES),
+                        RecipeProvider.has(Items.SWEET_BERRIES)
                 )
-                .offerTo(exporter);
+                .save(exporter);
 
-        CookingRecipeJsonBuilder.createCampfireCooking(Ingredient.ofItems(BakedBlissItems.NYXBERRIES), RecipeCategory.FOOD, BakedBlissItems.DRIED_NYXBERRIES, 0.15f, 100
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(BakedBlissItems.NYXBERRIES), RecipeCategory.FOOD, BakedBlissItems.DRIED_NYXBERRIES, 0.15f, 100
                 )
-                .criterion(
-                        RecipeProvider.hasItem(BakedBlissItems.NYXBERRIES),
-                        RecipeProvider.conditionsFromItem(BakedBlissItems.NYXBERRIES)
+                .unlockedBy(
+                        RecipeProvider.getHasName(BakedBlissItems.NYXBERRIES),
+                        RecipeProvider.has(BakedBlissItems.NYXBERRIES)
                 )
-                .offerTo(exporter);
+                .save(exporter);
 
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, BakedBlissItems.BERRY_JAM_COOKIE)
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, BakedBlissItems.BERRY_JAM_COOKIE)
                 .pattern("WJW")
-                .input('W', Items.WHEAT)
-                .input('J', BakedBlissItems.BERRY_JAM)
-                .criterion(hasItem(BakedBlissItems.BERRY_JAM), conditionsFromItem(BakedBlissItems.BERRY_JAM))
-                .criterion(hasItem(Items.WHEAT), conditionsFromItem(Items.WHEAT))
-                .offerTo(exporter, Identifier.of(getRecipeName(BakedBlissItems.BERRY_JAM_COOKIE)));
+                .define('W', Items.WHEAT)
+                .define('J', BakedBlissItems.BERRY_JAM)
+                .unlockedBy(getHasName(BakedBlissItems.BERRY_JAM), has(BakedBlissItems.BERRY_JAM))
+                .unlockedBy(getHasName(Items.WHEAT), has(Items.WHEAT))
+                .save(exporter, ResourceLocation.parse(getSimpleRecipeName(BakedBlissItems.BERRY_JAM_COOKIE)));
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, BakedBlissItems.SMOKED_BERRY_JAM_COOKIE)
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, BakedBlissItems.SMOKED_BERRY_JAM_COOKIE)
                 .pattern("WSW")
-                .input('W', Items.WHEAT)
-                .input('S', BakedBlissItems.SMOKED_BERRY_JAM)
-                .criterion(hasItem(BakedBlissItems.SMOKED_BERRY_JAM), conditionsFromItem(BakedBlissItems.SMOKED_BERRY_JAM))
-                .criterion(hasItem(Items.WHEAT), conditionsFromItem(Items.WHEAT))
-                .offerTo(exporter, Identifier.of(getRecipeName(BakedBlissItems.SMOKED_BERRY_JAM_COOKIE)));
-        ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, BakedBlissItems.STRAWBERRY_PIE)
+                .define('W', Items.WHEAT)
+                .define('S', BakedBlissItems.SMOKED_BERRY_JAM)
+                .unlockedBy(getHasName(BakedBlissItems.SMOKED_BERRY_JAM), has(BakedBlissItems.SMOKED_BERRY_JAM))
+                .unlockedBy(getHasName(Items.WHEAT), has(Items.WHEAT))
+                .save(exporter, ResourceLocation.parse(getSimpleRecipeName(BakedBlissItems.SMOKED_BERRY_JAM_COOKIE)));
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, BakedBlissItems.STRAWBERRY_PIE)
                 .pattern("SUE")
-                .input('S', BakedBlissItems.STRAWBERRY)
-                .input('U', Items.SUGAR)
-                .input('E', Items.EGG)
-                .criterion(hasItem(BakedBlissItems.STRAWBERRY), conditionsFromItem(BakedBlissItems.STRAWBERRY))
-                .criterion(hasItem(Items.SUGAR), conditionsFromItem(Items.SUGAR))
-                .criterion(hasItem(Items.EGG), conditionsFromItem(Items.EGG))
-                .offerTo(exporter, Identifier.of(getRecipeName(BakedBlissItems.STRAWBERRY_PIE)));
+                .define('S', BakedBlissItems.STRAWBERRY)
+                .define('U', Items.SUGAR)
+                .define('E', Items.EGG)
+                .unlockedBy(getHasName(BakedBlissItems.STRAWBERRY), has(BakedBlissItems.STRAWBERRY))
+                .unlockedBy(getHasName(Items.SUGAR), has(Items.SUGAR))
+                .unlockedBy(getHasName(Items.EGG), has(Items.EGG))
+                .save(exporter, ResourceLocation.parse(getSimpleRecipeName(BakedBlissItems.STRAWBERRY_PIE)));
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, BakedBlissItems.STRAWBERRY_SUNDAE)
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, BakedBlissItems.STRAWBERRY_SUNDAE)
                 .pattern("SIS")
                 .pattern(" G ")
-                .input('S', BakedBlissItems.STRAWBERRY)
-                .input('I', Blocks.ICE)
-                .input('G', Items.GLASS_BOTTLE)
-                .criterion(hasItem(BakedBlissItems.STRAWBERRY), conditionsFromItem(BakedBlissItems.STRAWBERRY))
-                .criterion(hasItem(Blocks.ICE), conditionsFromItem(Blocks.ICE))
-                .criterion(hasItem(Blocks.GLASS), conditionsFromItem(Blocks.GLASS))
-                .offerTo(exporter, Identifier.of(getRecipeName(BakedBlissItems.STRAWBERRY_SUNDAE)));
+                .define('S', BakedBlissItems.STRAWBERRY)
+                .define('I', Blocks.ICE)
+                .define('G', Items.GLASS_BOTTLE)
+                .unlockedBy(getHasName(BakedBlissItems.STRAWBERRY), has(BakedBlissItems.STRAWBERRY))
+                .unlockedBy(getHasName(Blocks.ICE), has(Blocks.ICE))
+                .unlockedBy(getHasName(Blocks.GLASS), has(Blocks.GLASS))
+                .save(exporter, ResourceLocation.parse(getSimpleRecipeName(BakedBlissItems.STRAWBERRY_SUNDAE)));
 
-        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, Items.BLUE_DYE, 2)
-                .input(BakedBlissItems.NYXBERRIES)
-                .criterion(hasItem(BakedBlissItems.NYXBERRIES),
-                        conditionsFromItem(BakedBlissItems.NYXBERRIES)
-                ).offerTo(exporter);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BLUE_DYE, 2)
+                .requires(BakedBlissItems.NYXBERRIES)
+                .unlockedBy(getHasName(BakedBlissItems.NYXBERRIES),
+                        has(BakedBlissItems.NYXBERRIES)
+                ).save(exporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, BakedBlissItems.NYXBERRY_SWIRL_CHEESECAKE,2)
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, BakedBlissItems.NYXBERRY_SWIRL_CHEESECAKE,2)
                 .pattern("NN")
                 .pattern("EM")
                 .pattern("WW")
-                .input('N', BakedBlissItems.NYXBERRIES)
-                .input('E', Items.EGG)
-                .input('M', Items.MILK_BUCKET)
-                .input('W', Items.WHEAT)
-                .criterion(hasItem(BakedBlissItems.NYXBERRIES), conditionsFromItem(BakedBlissItems.NYXBERRIES))
-                .criterion(hasItem(Items.SUGAR), conditionsFromItem(Items.SUGAR))
-                .criterion(hasItem(Items.MILK_BUCKET), conditionsFromItem(Items.MILK_BUCKET))
-                .criterion(hasItem(Items.WHEAT), conditionsFromItem(Items.WHEAT))
-                .offerTo(exporter, Identifier.of(getRecipeName(BakedBlissItems.NYXBERRY_SWIRL_CHEESECAKE)));
+                .define('N', BakedBlissItems.NYXBERRIES)
+                .define('E', Items.EGG)
+                .define('M', Items.MILK_BUCKET)
+                .define('W', Items.WHEAT)
+                .unlockedBy(getHasName(BakedBlissItems.NYXBERRIES), has(BakedBlissItems.NYXBERRIES))
+                .unlockedBy(getHasName(Items.SUGAR), has(Items.SUGAR))
+                .unlockedBy(getHasName(Items.MILK_BUCKET), has(Items.MILK_BUCKET))
+                .unlockedBy(getHasName(Items.WHEAT), has(Items.WHEAT))
+                .save(exporter, ResourceLocation.parse(getSimpleRecipeName(BakedBlissItems.NYXBERRY_SWIRL_CHEESECAKE)));
 
-        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, BakedBlissItems.CANDIED_DRIED_NYXBERRIES, 2)
-                .input(BakedBlissItems.NYXBERRIES)
-                .input(Items.SUGAR)
-                .criterion(hasItem(BakedBlissItems.NYXBERRIES),
-                        conditionsFromItem(BakedBlissItems.NYXBERRIES)
-                ).offerTo(exporter);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, BakedBlissItems.CANDIED_DRIED_NYXBERRIES, 2)
+                .requires(BakedBlissItems.NYXBERRIES)
+                .requires(Items.SUGAR)
+                .unlockedBy(getHasName(BakedBlissItems.NYXBERRIES),
+                        has(BakedBlissItems.NYXBERRIES)
+                ).save(exporter);
 
     }
 }
