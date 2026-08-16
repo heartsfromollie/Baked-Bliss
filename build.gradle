@@ -1,11 +1,14 @@
 plugins {
-	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+	id("dev.kikugie.loom-back-compat")
 	id 'maven-publish'
 }
 
 version = project.mod_version
 group = project.maven_group
 
+base {
+	archivesName.set("baked_bliss+" + (property("minecraft_version") as String))
+}
 repositories {
 	maven {
 		name = "TerraformersMC"
@@ -21,12 +24,14 @@ fabricApi {
 
 dependencies {
 	// To change the versions see the gradle.properties file
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	minecraft "com.mojang:minecraft:" + property("minecraft_version") as String
+
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	modImplementation "net.fabricmc:fabric-loader:" + property("loader_version") as String
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:" + property("fabric_api_version") as String
 	
 }
 
@@ -34,8 +39,12 @@ processResources {
 	def version = project.version
 	inputs.property "version", version
 
+	def minecraft = stonecutter.current.version
+	def injection = "$minecraft" as String
+
 	filesMatching("fabric.mod.json") {
-		expand "version": version
+		expand "version": version,
+				"minecraft_version": injection
 	}
 }
 
