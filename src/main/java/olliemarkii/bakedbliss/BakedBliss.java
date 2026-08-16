@@ -2,11 +2,18 @@ package olliemarkii.bakedbliss;
 
 import net.fabricmc.api.ModInitializer;
 
-import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
-
+//? if <26.1 {
+/*import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
-import net.minecraft.item.Item;
-import net.minecraft.potion.Potions;
+*///? } else {
+import net.fabricmc.fabric.api.registry.CompostableRegistry;
+//? }
+
+//? if >=1.21.11 {
+import net.minecraft.resources.Identifier;
+//? } else {
+/*import net.minecraft.resources.ResourceLocation;
+*///? }
 import olliemarkii.bakedbliss.registry.*;
 import olliemarkii.bakedbliss.item.BakedBlissItemGroups;
 import olliemarkii.bakedbliss.world.gen.BakedBlissWorldGeneration;
@@ -27,8 +34,24 @@ public class BakedBliss implements ModInitializer {
 		BakedBlissRecipes.registerSpecialRecipes();
 		BakedBlissWorldGeneration.generatedModWorldGen();
 
-		CompostingChanceRegistry.INSTANCE.add(BakedBlissItems.STRAWBERRY, 0.25f);
+		//? if <26.1 {
+		/*CompostingChanceRegistry.INSTANCE.add(BakedBlissItems.STRAWBERRY, 0.25f);
 		CompostingChanceRegistry.INSTANCE.add(BakedBlissItems.NYXBERRIES, 0.15f);
-
+		*///? } else {
+		CompostableRegistry.INSTANCE.add(BakedBlissItems.STRAWBERRY, 0.25f);
+		CompostableRegistry.INSTANCE.add(BakedBlissItems.NYXBERRIES, 0.15f);
+		//? }
 	}
+
+	//? if >=1.21.11 {
+	public static Identifier of(String path) {
+		return Identifier.fromNamespaceAndPath(MOD_ID, path);
+	}
+	 
+	//? } else {
+	/*public static ResourceLocation of(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+	}
+	*///? }
+
 }

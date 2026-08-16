@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 150,
+  "experience": 0.15,
+  "group": "sweet_berry_smeltables",
+  "ingredient": "minecraft:sweet_berries",
+  "result": {
+    "id": "bakedbliss:berry_jam"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "bakedbliss:nyxberries",
+    "minecraft:sugar"
+  ],
+  "result": {
+    "count": 2,
+    "id": "bakedbliss:candied_dried_nyxberries"
+  }
+}

@@ -1,40 +1,71 @@
 package olliemarkii.bakedbliss.registry;
 
-import net.minecraft.block.*;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import olliemarkii.bakedbliss.BakedBliss;
 import olliemarkii.bakedbliss.block.custom.NyxberryBushBlock;
 import olliemarkii.bakedbliss.block.custom.StrawberryCropBlock;
 
+import java.util.function.Function;
+
 public class BakedBlissBlocks {
 
-    public static final Block STRAWBERRY_CROP = registerBlockWithoutBlockItem("strawberry_crop",
-            new StrawberryCropBlock(AbstractBlock.Settings.create().noCollision()
-                    .ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP).pistonBehavior(PistonBehavior.DESTROY).mapColor(MapColor.DARK_GREEN)));
+    public static final Block STRAWBERRY_CROP = register("strawberry_crop",
+            StrawberryCropBlock::new,
+            //? if >1.21.4 {
+            BlockBehaviour.Properties.of().noCollision()
+            //? } else {
+            /*BlockBehaviour.Properties.of().noCollission()
+            *///? }
+                    .randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY).mapColor(MapColor.PLANT),
+            false);
 
-    public static final Block NYXBERRY_BUSH = registerBlockWithoutBlockItem("nyxberry_bush",
-            new NyxberryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH)));
+    public static final Block NYXBERRY_BUSH = register("nyxberry_bush",
+            NyxberryBushBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.SWEET_BERRY_BUSH),
+            false);
 
 
 
-    private static Block registerBlockWithoutBlockItem(String name, Block block){
-        return Registry.register(Registries.BLOCK, Identifier.of(BakedBliss.MOD_ID, name), block);
+    private static Block register(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties properties, boolean shouldRegisterItem) {
+
+        ResourceKey<Block> blockKey = keyOfBlock(name);
+        Block block = blockFactory.apply(properties
+                //? if >=1.21.4 {
+                .setId(blockKey)
+                //? }
+        );
+
+        if (shouldRegisterItem) {
+            ResourceKey<Item> itemKey = keyOfItem(name);
+
+            BlockItem blockItem = new BlockItem(block, new Item.Properties()
+                    //? if >=1.21.4 {
+                    .setId(itemKey).useBlockDescriptionPrefix()
+                    //? }
+                    );
+            Registry.register(BuiltInRegistries.ITEM, itemKey, blockItem);
+        }
+
+        return Registry.register(BuiltInRegistries.BLOCK, blockKey, block);
     }
 
-    private static Block registerBlock(String name, Block block) {
-        registerBlockItem(name, block);
-        return Registry.register(Registries.BLOCK, Identifier.of(BakedBliss.MOD_ID, name), block);
+    private static ResourceKey<Block> keyOfBlock(String name) {
+        return ResourceKey.create(Registries.BLOCK, BakedBliss.of(name));
     }
 
-    private static void registerBlockItem(String name, Block block){
-        Registry.register(Registries.ITEM, Identifier.of(BakedBliss.MOD_ID, name),
-                new BlockItem(block, new Item.Settings()));
+    private static ResourceKey<Item> keyOfItem(String name) {
+        return ResourceKey.create(Registries.ITEM, BakedBliss.of(name));
     }
 
 

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "experience": 0.15,
+  "ingredient": "minecraft:sweet_berries",
+  "result": {
+    "id": "bakedbliss:smoked_berry_jam"
+  }
+}

@@ -1,71 +1,151 @@
 package olliemarkii.bakedbliss.registry;
 
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.item.AliasedBlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
+
+//? if >=26.1 {
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+ //? } else {
+/*import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+ *///? }
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
+//? if <=1.21.1 {
+/*import net.minecraft.world.item.ItemNameBlockItem;
+*///? }
+import net.minecraft.world.level.block.Block;
 import olliemarkii.bakedbliss.BakedBliss;
 import olliemarkii.bakedbliss.item.BakedBlissFoodComponents;
 import olliemarkii.bakedbliss.item.custom.SmokedBerryJamCookieItem;
 
+import java.util.function.Function;
+
 public class BakedBlissItems {
-    public static final Item BERRY_JAM = registerItem("berry_jam", new Item(new Item.Settings()));
+    public static final Item BERRY_JAM = register("berry_jam", Item::new, new Item.Properties());
 
-    public static final Item BERRY_JAM_COOKIE = registerItem("berry_jam_cookie", new Item(new Item.Settings()
-            .food(BakedBlissFoodComponents.BERRY_JAM_COOKIE)));
+    public static final Item BERRY_JAM_COOKIE = register(
+            "berry_jam_cookie",
+            Item::new,
+            new Item.Properties()
+                    .food(BakedBlissFoodComponents.BERRY_JAM_COOKIE
+                            //? if >1.21.1 {
+                            , BakedBlissFoodComponents.BERRY_JAM_COOKIE_CONSUMABLE
+                            //? }
+                    ));
 
-    public static final Item SMOKED_BERRY_JAM = registerItem("smoked_berry_jam", new Item(new Item.Settings()));
+    public static final Item SMOKED_BERRY_JAM = register(
+            "smoked_berry_jam",
+            Item::new,
+            new Item.Properties());
 
-    public static final Item SMOKED_BERRY_JAM_COOKIE = registerItem("smoked_berry_jam_cookie",
+    public static final Item SMOKED_BERRY_JAM_COOKIE = register(
+            "smoked_berry_jam_cookie",
+            SmokedBerryJamCookieItem::new,
+            new Item.Properties().food(BakedBlissFoodComponents.SMOKED_BERRY_JAM_COOKIE
+                    //? if >1.21.1 {
+                        , BakedBlissFoodComponents.SMOKED_BERRY_JAM_COOKIE_CONSUMABLE
+                    //? }
+            ));
 
-            new SmokedBerryJamCookieItem(new Item.Settings().food(BakedBlissFoodComponents.SMOKED_BERRY_JAM_COOKIE)));
+    public static final Item STRAWBERRY = register("strawberry",
+            createBlockItemWithCustomItemName(BakedBlissBlocks.STRAWBERRY_CROP),
+            new Item.Properties()
+                    .food(BakedBlissFoodComponents.STRAWBERRY
+                            //? if >1.21.1 {
+                            , BakedBlissFoodComponents.STRAWBERRY_CONSUMABLE
+                            //? }
+                    ));
 
-    public static final Item STRAWBERRY = registerItem("strawberry",
-        new AliasedBlockItem(BakedBlissBlocks.STRAWBERRY_CROP, new Item.Settings()
-                .food(BakedBlissFoodComponents.STRAWBERRY)));
+    public static final Item STRAWBERRY_PIE = register(
+            "strawberry_pie",
+            Item::new,
+            new Item.Properties()
+                    .food(BakedBlissFoodComponents.STRAWBERRY_PIE));
 
-    public static final Item STRAWBERRY_PIE = registerItem("strawberry_pie", new Item(new Item.Settings()
-            .food(BakedBlissFoodComponents.STRAWBERRY_PIE)));
+    public static final Item STRAWBERRY_SUNDAE = register(
+            "strawberry_sundae", Item::new,
+            new Item.Properties()
+                    .food(BakedBlissFoodComponents.STRAWBERRY_SUNDAE
+                            //? if >1.21.1 {
+                            , BakedBlissFoodComponents.STRAWBERRY_SUNDAE_CONSUMABLE
+                            //? }
+                    ));
 
-    public static final Item STRAWBERRY_SUNDAE = registerItem("strawberry_sundae", new Item(new Item.Settings()
-            .food(BakedBlissFoodComponents.STRAWBERRY_SUNDAE)));
+    public static final Item NYXBERRIES = register("nyxberries",
+            createBlockItemWithCustomItemName(BakedBlissBlocks.NYXBERRY_BUSH),
+            new Item.Properties());
 
-    public static final Item NYXBERRIES = registerItem("nyxberries",
-            new AliasedBlockItem(BakedBlissBlocks.NYXBERRY_BUSH, new Item.Settings()));
+    public static final Item DRIED_NYXBERRIES = register("dried_nyxberries",
+            Item::new,
+            new Item.Properties()
+                    .food(BakedBlissFoodComponents.DRIED_NYXBERRIES
+                            //? if >1.21.1 {
+                            , BakedBlissFoodComponents.DRIED_NYXBERRIES_CONSUMABLE
+                            //? }
+                    ));
 
-    public static final Item DRIED_NYXBERRIES = registerItem("dried_nyxberries",
-            new Item(new Item.Settings()
-                    .food(BakedBlissFoodComponents.DRIED_NYXBERRIES)));
+    public static final Item CANDIED_DRIED_NYXBERRIES = register(
+            "candied_dried_nyxberries",
+            Item::new,
+            new Item.Properties()
+                    .food(BakedBlissFoodComponents.CANDIED_DRIED_NYXBERRIES
+                            //? if >1.21.1 {
+                            , BakedBlissFoodComponents.CANDIED_DRIED_NYXBERRIES_CONSUMABLE
+                            //? }
+                    ));
 
-    public static final Item CANDIED_DRIED_NYXBERRIES = registerItem("candied_dried_nyxberries",
-            new Item(new Item.Settings()
-                    .food(BakedBlissFoodComponents.CANDIED_DRIED_NYXBERRIES)));
+    public static final Item NYXBERRY_JAM = register(
+            "nyxberry_jam",
+            Item::new,
+            new Item.Properties());
 
-    public static final Item NYXBERRY_JAM = registerItem("nyxberry_jam", new Item(new Item.Settings()));
+    public static final Item NYXBERRY_SWIRL_CHEESECAKE = register(
+            "nyxberry_swirl_cheesecake",
+            Item::new,
+            new Item.Properties()
+                    .food(BakedBlissFoodComponents.NYXBERRY_SWIRL_CHEESECAKE));
 
-    public static final Item NYXBERRY_SWIRL_CHEESECAKE = registerItem("nyxberry_swirl_cheesecake",
-            new Item(new Item.Settings()
-                    .food(BakedBlissFoodComponents.NYXBERRY_SWIRL_CHEESECAKE)));
 
-
-    private static Item registerItem(String name, Item item) {
-        return Registry.register(Registries.ITEM, Identifier.of(BakedBliss.MOD_ID, name), item);
+    private static Function<Item.Properties, Item> createBlockItemWithCustomItemName(Block block) {
+        //? if >=1.21.4 {
+        return (properties) -> new BlockItem(block, properties
+                .useItemDescriptionPrefix()
+        );
+        //? } else {
+        /*return (properties) -> new ItemNameBlockItem(block, properties
+        );
+        *///? }
     }
+    public static <T extends Item> T register(String name, Function<Item.Properties, T> itemFactory, Item.Properties settings) {
+        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, BakedBliss.of(name));
 
+        T item = itemFactory.apply(settings
+                        //? if >=1.21.4 {
+                        .setId(itemKey)
+                //? }
+        );
+
+        Registry.register(BuiltInRegistries.ITEM, itemKey, item);
+
+        return item;
+    }
 
     public static void registerModItems() {
         BakedBliss.LOGGER.info("Registering Baked Bliss Items for " + BakedBliss.MOD_ID);
 
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
-            entries.add(BERRY_JAM);
+        //? if >=26.1 {
+        
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS)
+        //? } else {
+        /*ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.BUILDING_BLOCKS)
+        *///? }
+        .register((creativeTab) -> {
+            creativeTab.accept(BERRY_JAM);
         });
     }
 }
