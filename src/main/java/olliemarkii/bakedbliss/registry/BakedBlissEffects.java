@@ -3,7 +3,6 @@ package olliemarkii.bakedbliss.registry;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import olliemarkii.bakedbliss.BakedBliss;
@@ -15,7 +14,7 @@ public class BakedBlissEffects {
 
 
     private static Holder<MobEffect> registerStatusEffect(String name, MobEffect statusEffect){
-        return Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, ResourceLocation.fromNamespaceAndPath(BakedBliss.MOD_ID, name), statusEffect);
+        return Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, BakedBliss.of(name), statusEffect);
     }
 
 

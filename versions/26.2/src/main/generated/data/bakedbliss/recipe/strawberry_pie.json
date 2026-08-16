@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "E": "minecraft:egg",
+    "S": "bakedbliss:strawberry",
+    "U": "minecraft:sugar"
+  },
+  "pattern": [
+    "SUE"
+  ],
+  "result": {
+    "id": "bakedbliss:strawberry_pie"
+  }
+}

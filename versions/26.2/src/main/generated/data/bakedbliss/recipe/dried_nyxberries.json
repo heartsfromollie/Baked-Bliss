@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "experience": 0.15,
+  "ingredient": "bakedbliss:nyxberries",
+  "result": {
+    "id": "bakedbliss:dried_nyxberries"
+  }
+}

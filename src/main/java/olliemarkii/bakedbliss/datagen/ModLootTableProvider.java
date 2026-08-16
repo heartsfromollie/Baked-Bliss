@@ -1,8 +1,12 @@
 package olliemarkii.bakedbliss.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+//? if <=1.21.4 {
+/*import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+ *///? } else if <=26.1 {
+import net.minecraft.advancements.criterion.StatePropertiesPredicate;
+//? } else {
+/*import net.minecraft.advancements.predicates.StatePropertiesPredicate;
+*///? }
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -19,18 +23,30 @@ import olliemarkii.bakedbliss.block.custom.NyxberryBushBlock;
 import olliemarkii.bakedbliss.block.custom.StrawberryCropBlock;
 import olliemarkii.bakedbliss.registry.BakedBlissItems;
 
+//? if >=26.1 {
+
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
+//? } else {
+/*import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+*///? }
+
 import java.util.concurrent.CompletableFuture;
 
-public class ModLootTableProvider extends FabricBlockLootTableProvider {
-    public ModLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+//? if >=26.1 {
+public class ModLootTableProvider extends FabricBlockLootSubProvider {
+//?} else {
+    /*public class ModLootTableProvider extends FabricBlockLootTableProvider {
+     *///? }
+
+    //? if >=26.1 {
+    public ModLootTableProvider(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        //? } else {
+        /*public ModLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+         *///? }
         super(dataOutput, registryLookup);
     }
-
-
-
-
-
-
 
     @Override
     public void generate() {
@@ -52,7 +68,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         );
 
         this.add(BakedBlissBlocks.NYXBERRY_BUSH,
-                    block -> this.applyExplosionDecay(
+                block -> this.applyExplosionDecay(
                         block,
                         LootTable.lootTable()
                                 .withPool(

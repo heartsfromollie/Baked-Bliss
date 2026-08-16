@@ -1,12 +1,13 @@
 package olliemarkii.bakedbliss.recipe;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CraftingInput;
-import net.minecraft.world.item.crafting.CustomRecipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import olliemarkii.bakedbliss.component.NyxberryPoisonComponent;
 import olliemarkii.bakedbliss.registry.BakedBlissComponents;
@@ -16,7 +17,28 @@ import olliemarkii.bakedbliss.registry.BakedBlissRecipes;
 public class NyxberryPoisonFoodRecipe extends CustomRecipe {
 
     public NyxberryPoisonFoodRecipe(CraftingBookCategory category) {
-        super(category);
+        //? if >=26.1 {
+        super();
+        //? } else {
+        /*super(category);
+        *///? }
+    }
+
+    public static final MapCodec<NyxberryPoisonFoodRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
+            instance.group(
+                    CraftingBookCategory.CODEC.fieldOf("category").forGetter(NyxberryPoisonFoodRecipe::category)
+            ).apply(instance, NyxberryPoisonFoodRecipe::new)
+    );
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, NyxberryPoisonFoodRecipe> STREAM_CODEC = StreamCodec.composite(
+            CraftingBookCategory.STREAM_CODEC,
+            NyxberryPoisonFoodRecipe::category,
+            NyxberryPoisonFoodRecipe::new
+    );
+
+    @Override
+    public CraftingBookCategory category() {
+        return super.category();
     }
 
     @Override
@@ -53,9 +75,14 @@ public class NyxberryPoisonFoodRecipe extends CustomRecipe {
 
         return !food.isEmpty() && !poison.isEmpty();
     }
-
+    //? if >=26.1 {
     @Override
-    public ItemStack craft(CraftingInput input, HolderLookup.Provider lookup) {
+    public ItemStack assemble(CraftingInput input) {
+    //? } else {
+    /*@Override
+    public ItemStack assemble(CraftingInput input, HolderLookup.Provider lookup) {
+    *///?}
+
 
         for (int i = 0; i < input.size(); i++) {
 
@@ -82,7 +109,9 @@ public class NyxberryPoisonFoodRecipe extends CustomRecipe {
 
 
 
-    @Override
+
+    //? if <=1.21.1 {
+    /*@Override
     public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
@@ -91,4 +120,10 @@ public class NyxberryPoisonFoodRecipe extends CustomRecipe {
     public RecipeSerializer<?> getSerializer() {
         return BakedBlissRecipes.NYXBERRY_POISON_FOOD;
     }
+    *///? } else {
+    @Override
+    public RecipeSerializer<? extends CustomRecipe> getSerializer() {
+        return BakedBlissRecipes.NYXBERRY_POISON_FOOD;
+    }
+    //? }
 }

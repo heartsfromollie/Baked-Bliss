@@ -26,7 +26,7 @@ dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:" + property("minecraft_version") as String
 
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	loomx.applyMojangMappings()
 
 	modImplementation "net.fabricmc:fabric-loader:" + property("loader_version") as String
 

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": "minecraft:egg",
+    "M": "minecraft:milk_bucket",
+    "N": "bakedbliss:nyxberries",
+    "W": "minecraft:wheat"
+  },
+  "pattern": [
+    "NN",
+    "EM",
+    "WW"
+  ],
+  "result": {
+    "count": 2,
+    "id": "bakedbliss:nyxberry_swirl_cheesecake"
+  }
+}

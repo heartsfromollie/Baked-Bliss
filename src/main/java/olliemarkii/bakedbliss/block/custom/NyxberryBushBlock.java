@@ -21,24 +21,34 @@ public class NyxberryBushBlock extends SweetBerryBushBlock {
     }
 
 
-    @Override
+    //? if <=1.21.1 {
+    /*@Override
     public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state) {
         return new ItemStack(BakedBlissItems.NYXBERRIES);
     }
-
+    *///? } else {
+    @Override
+    protected ItemStack getCloneItemStack(LevelReader levelReader, BlockPos blockPos, BlockState blockState, boolean bl) {
+        return BakedBlissItems.NYXBERRIES.getDefaultInstance();
+    }
+    //? }
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
         int i = state.getValue(AGE);
         boolean bl = i == 3;
         if (i > 1) {
-            int j = 1 + world.random.nextInt(2);
+            int j = 1 + world.getRandom().nextInt(2);
             popResource(world, pos, new ItemStack(BakedBlissItems.NYXBERRIES, j + (bl ? 1 : 0)));
-            world.playSound((Player)null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + world.random.nextFloat() * 0.4F);
+            world.playSound((Player)null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + world.getRandom().nextFloat() * 0.4F);
             BlockState blockState = state.setValue(AGE, 1);
             world.setBlock(pos, blockState, Block.UPDATE_CLIENTS);
             world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, blockState));
-            return InteractionResult.sidedSuccess(world.isClientSide);
+            //? if <=1.21.1 {
+            /*return InteractionResult.sidedSuccess(world.isClientSide());
+            *///? } else {
+            return InteractionResult.SUCCESS;
+            //? }
         } else {
             return super.useWithoutItem(state, world, pos, player, hit);
         }

@@ -1,10 +1,13 @@
 package olliemarkii.bakedbliss.item;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+//? if >=26.1 {
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+//? } else {
+/*import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+*///? }
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -13,8 +16,13 @@ import olliemarkii.bakedbliss.registry.BakedBlissItems;
 
 public class BakedBlissItemGroups {
     public static final CreativeModeTab BAKED_BLISS_ITEM_GROUP = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
-            ResourceLocation.fromNamespaceAndPath(BakedBliss.MOD_ID, "bb_items"),
-            FabricItemGroup.builder().icon(()-> new ItemStack(BakedBlissItems.STRAWBERRY))
+            BakedBliss.of("bb_items"),
+            //? if >=26.1 {
+            FabricCreativeModeTab
+            //? } else {
+            /*FabricItemGroup
+            *///? }
+                    .builder().icon(()-> new ItemStack(BakedBlissItems.STRAWBERRY))
                     .title(Component.translatable("itemgroup.bakedbliss.bb_items"))
                     .displayItems((displayContext, entries) -> {
                         entries.accept(BakedBlissItems.STRAWBERRY);
@@ -30,12 +38,6 @@ public class BakedBlissItemGroups {
                         entries.accept(BakedBlissItems.CANDIED_DRIED_NYXBERRIES);
                         entries.accept(BakedBlissItems.NYXBERRY_JAM);
                         entries.accept(BakedBlissItems.NYXBERRY_SWIRL_CHEESECAKE);
-
-
-
-
-
-
                     }).build());
     public static void registerItemGroups() {
         BakedBliss.LOGGER.info("Registering Item Groups for " + BakedBliss.MOD_ID);

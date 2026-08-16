@@ -3,7 +3,6 @@ package olliemarkii.bakedbliss.registry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import olliemarkii.bakedbliss.BakedBliss;
 import olliemarkii.bakedbliss.component.NyxberryPoisonComponent;
 
@@ -11,7 +10,7 @@ public class BakedBlissComponents {
     public static final DataComponentType<NyxberryPoisonComponent> NYXBERRY_POISON =
             Registry.register(
                     BuiltInRegistries.DATA_COMPONENT_TYPE,
-                    ResourceLocation.fromNamespaceAndPath(BakedBliss.MOD_ID, "bakedbliss"),
+                    BakedBliss.of("bakedbliss"),
                     DataComponentType.<NyxberryPoisonComponent>builder()
                             .persistent(NyxberryPoisonComponent.CODEC)
                             .networkSynchronized(NyxberryPoisonComponent.PACKET_CODEC)

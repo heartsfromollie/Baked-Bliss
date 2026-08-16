@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "J": "bakedbliss:berry_jam",
+    "W": "minecraft:wheat"
+  },
+  "pattern": [
+    "WJW"
+  ],
+  "result": {
+    "id": "bakedbliss:berry_jam_cookie"
+  }
+}

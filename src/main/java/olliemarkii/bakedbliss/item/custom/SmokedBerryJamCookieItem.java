@@ -18,7 +18,7 @@ public class SmokedBerryJamCookieItem extends Item {
     public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
         ItemStack result = super.finishUsingItem(stack, world, user);
 
-        if (!world.isClientSide) {
+        if (!world.isClientSide()) {
             user.removeEffect(MobEffects.POISON);
             user.removeEffect(BakedBlissEffects.NYXBERRY_POISONING);
         }
